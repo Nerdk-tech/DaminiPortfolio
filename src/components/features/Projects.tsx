@@ -1,18 +1,22 @@
-import { ExternalLink, Github, Sparkles, Search, Bot } from 'lucide-react';
+import { ExternalLink, Github, Sparkles, Search, Bot, Heart, Video, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import primisx from '@/assets/project-primisx.jpg';
 import primis from '@/assets/project-primis.jpg';
 import danisearch from '@/assets/project-danisearch.jpg';
+import daniai from '@/assets/project-daniai.jpg';
+import snappix from '@/assets/project-snappix.jpg';
 
 const Projects = () => {
   const projects = [
     {
-      title: 'PRIMISX',
-      description: 'Advanced virtual assistant powered by AI, similar to J.A.R.V.I.S. Capable of understanding natural language commands and executing complex tasks with intelligent automation.',
-      image: primisx,
-      icon: Bot,
-      tags: ['AI', 'Python', 'NLP', 'Voice Recognition'],
-      color: 'from-purple-500 to-pink-500',
+      title: 'DANI.ai',
+      description: 'Your AI best friend that generates stunning images and talks with natural voice. An intelligent companion that combines image generation with conversational AI for a truly interactive experience.',
+      image: daniai,
+      icon: Heart,
+      tags: ['AI Companion', 'Image Generation', 'Voice AI', 'React'],
+      color: 'from-pink-500 to-purple-500',
+      link: 'https://daniai.vercel.app',
+      status: 'live',
     },
     {
       title: 'PRIMIS AI',
@@ -21,6 +25,7 @@ const Projects = () => {
       icon: Sparkles,
       tags: ['AI', 'ChatBot', 'Machine Learning', 'React'],
       color: 'from-cyan-500 to-blue-500',
+      status: 'live',
     },
     {
       title: 'DaniSearch',
@@ -28,7 +33,26 @@ const Projects = () => {
       image: danisearch,
       icon: Search,
       tags: ['Search Engine', 'Python', 'Web Crawling', 'Algorithms'],
-      color: 'from-pink-500 to-purple-500',
+      color: 'from-cyan-500 to-teal-500',
+      status: 'live',
+    },
+    {
+      title: 'snappix',
+      description: 'Next-generation social media platform inspired by TikTok. Short-form video sharing with AI-powered content discovery, trending feeds, and interactive community features.',
+      image: snappix,
+      icon: Video,
+      tags: ['Social Media', 'Video', 'React', 'Real-time'],
+      color: 'from-purple-500 to-pink-500',
+      status: 'coming-soon',
+    },
+    {
+      title: 'PRIMISX',
+      description: 'Advanced virtual assistant powered by AI, similar to J.A.R.V.I.S. Capable of understanding natural language commands and executing complex tasks with intelligent automation.',
+      image: primisx,
+      icon: Bot,
+      tags: ['AI', 'Python', 'NLP', 'Voice Recognition'],
+      color: 'from-purple-500 to-indigo-500',
+      status: 'coming-soon',
     },
   ];
 
@@ -63,6 +87,18 @@ const Projects = () => {
                 <div className={`absolute top-4 right-4 bg-gradient-to-r ${project.color} w-12 h-12 rounded-lg flex items-center justify-center box-glow`}>
                   <project.icon className="w-6 h-6 text-white" />
                 </div>
+                {project.status === 'coming-soon' && (
+                  <div className="absolute top-4 left-4 bg-yellow-500/20 backdrop-blur-sm border border-yellow-500/50 rounded-lg px-3 py-1 flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-yellow-400" />
+                    <span className="text-yellow-400 text-sm font-semibold">Coming Soon</span>
+                  </div>
+                )}
+                {project.status === 'live' && project.link && (
+                  <div className="absolute top-4 left-4 bg-green-500/20 backdrop-blur-sm border border-green-500/50 rounded-lg px-3 py-1 flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                    <span className="text-green-400 text-sm font-semibold">Live</span>
+                  </div>
+                )}
               </div>
 
               {/* Project Content */}
@@ -81,6 +117,17 @@ const Projects = () => {
                     </span>
                   ))}
                 </div>
+
+                {/* View Project Button */}
+                {project.link && (
+                  <Button
+                    className="w-full bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white border-0"
+                    onClick={() => window.open(project.link, '_blank')}
+                  >
+                    Visit Project
+                    <ExternalLink className="ml-2 w-4 h-4" />
+                  </Button>
+                )}
               </div>
             </div>
           ))}

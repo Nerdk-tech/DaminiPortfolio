@@ -20,8 +20,8 @@ const Contact = () => {
     {
       icon: Mail,
       label: 'Email',
-      value: 'damibotzinc@gmail.com',
-      href: 'mailto:damibotzinc@gmail.com',
+      value: 'admin@daminicodes.zone.id',
+      href: 'mailto:admin@daminicodes.zone.id',
       color: 'from-cyan-500 to-blue-500',
     },
     {
@@ -35,7 +35,7 @@ const Contact = () => {
       icon: MapPin,
       label: 'Organization',
       value: 'Damini Codesphere',
-      href: 'https://daminicodes.vercel.app',
+      href: 'https://daminicodes.zone.id',
       color: 'from-pink-500 to-purple-500',
     },
   ];
@@ -94,7 +94,7 @@ const Contact = () => {
                 size="lg"
                 variant="outline"
                 className="border-2 border-purple-500 text-purple-400 hover:bg-purple-500/10 hover:text-purple-300 text-lg px-8 py-6"
-                onClick={() => window.open('https://daminicodes.vercel.app', '_blank')}
+                onClick={() => window.open('https://daminicodes.zone.id', '_blank')}
               >
                 Visit Organization
               </Button>

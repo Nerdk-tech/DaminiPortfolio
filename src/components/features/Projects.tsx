@@ -25,6 +25,7 @@ const Projects = () => {
       icon: Sparkles,
       tags: ['AI', 'ChatBot', 'Machine Learning', 'React'],
       color: 'from-cyan-500 to-blue-500',
+      link: 'https://primisai.vercel.app',
       status: 'live',
     },
     {
@@ -34,6 +35,7 @@ const Projects = () => {
       icon: Search,
       tags: ['Search Engine', 'Python', 'Web Crawling', 'Algorithms'],
       color: 'from-cyan-500 to-teal-500',
+      link: 'https://dani-search.vercel.app',
       status: 'live',
     },
     {
@@ -162,7 +164,7 @@ const Projects = () => {
             <Button
               size="lg"
               className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white border-0 box-glow"
-              onClick={() => window.open('https://daminicodes.vercel.app', '_blank')}
+              onClick={() => window.open('https://daminicodes.zone.id', '_blank')}
             >
               Visit Organization Website
               <ExternalLink className="ml-2 w-5 h-5" />

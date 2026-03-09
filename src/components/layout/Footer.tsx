@@ -39,7 +39,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://daminicodes.vercel.app"
+                  href="https://daminicodes.zone.id"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-purple-400 transition-colors text-sm inline-flex items-center gap-1"
@@ -74,11 +74,11 @@ const Footer = () => {
                 Dev-Damini
               </a>
               <a
-                href="mailto:damibotzinc@gmail.com"
+                href="mailto:admin@daminicodes.zone.id"
                 className="text-gray-400 hover:text-purple-400 transition-colors text-sm inline-flex items-center gap-2"
               >
                 <Mail className="w-4 h-4" />
-                damibotzinc@gmail.com
+                admin@daminicodes.zone.id
               </a>
             </div>
           </div>

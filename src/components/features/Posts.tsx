@@ -1,6 +1,11 @@
 import { useState } from 'react';
-import { Plus, CheckCircle2 } from 'lucide-react';
+import { Plus, CheckCircle2, X, ExternalLink } from 'lucide-react';
 import storyLive from '@/assets/story-live.jpg';
+import daniai from '@/assets/project-daniai.jpg';
+import primisx from '@/assets/project-primisx.jpg';
+import primis from '@/assets/project-primis.jpg';
+import danisearch from '@/assets/project-danisearch.jpg';
+import snappix from '@/assets/project-snappix.jpg';
 
 interface Story {
   id: string;
@@ -8,6 +13,9 @@ interface Story {
   verified: boolean;
   image: string;
   title: string;
+  content: string;
+  link?: string;
+  timestamp: string;
 }
 
 const Posts = () => {
@@ -18,8 +26,103 @@ const Posts = () => {
       verified: true,
       image: storyLive,
       title: 'DANI is Live',
+      content: 'DANI.ai is now live! Check out my AI best friend that generates images and talks with voice.',
+      link: 'https://daniai.vercel.app',
+      timestamp: '2h ago',
+    },
+    {
+      id: '2',
+      author: 'Damini',
+      verified: true,
+      image: daniai,
+      title: 'DANI.ai Launch',
+      content: '🎉 Introducing DANI.ai - Your AI companion for image generation and voice conversations!',
+      link: 'https://daniai.vercel.app',
+      timestamp: '3h ago',
+    },
+    {
+      id: '3',
+      author: 'Damini',
+      verified: true,
+      image: snappix,
+      title: 'snappix Coming Soon',
+      content: '📱 Working on snappix - the next-gen social media platform. Stay tuned!',
+      timestamp: '1d ago',
+    },
+    {
+      id: '4',
+      author: 'Damini',
+      verified: true,
+      image: primisx,
+      title: 'PRIMISX Development',
+      content: '🤖 Building PRIMISX - Your virtual assistant like J.A.R.V.I.S. Amazing progress!',
+      timestamp: '2d ago',
+    },
+    {
+      id: '5',
+      author: 'Damini',
+      verified: true,
+      image: primis,
+      title: 'PRIMIS AI',
+      content: '✨ PRIMIS AI chatbot is getting smarter every day with advanced conversational capabilities!',
+      timestamp: '3d ago',
+    },
+    {
+      id: '6',
+      author: 'Damini',
+      verified: true,
+      image: danisearch,
+      title: 'DaniSearch',
+      content: '🔍 DaniSearch - Advanced search engine delivering fast, accurate results!',
+      timestamp: '4d ago',
     },
   ]);
+
+  const [activeStoryIndex, setActiveStoryIndex] = useState<number | null>(null);
+  const [viewProgress, setViewProgress] = useState(0);
+
+  const openStory = (index: number) => {
+    setActiveStoryIndex(index);
+    setViewProgress(0);
+    
+    // Auto progress animation
+    const duration = 5000; // 5 seconds per story
+    const interval = 50;
+    const step = (interval / duration) * 100;
+    
+    const progressInterval = setInterval(() => {
+      setViewProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(progressInterval);
+          // Auto move to next story
+          if (index < stories.length - 1) {
+            openStory(index + 1);
+          } else {
+            closeStory();
+          }
+          return 100;
+        }
+        return prev + step;
+      });
+    }, interval);
+  };
+
+  const closeStory = () => {
+    setActiveStoryIndex(null);
+    setViewProgress(0);
+  };
+
+  const nextStory = () => {
+    if (activeStoryIndex !== null && activeStoryIndex < stories.length - 1) {
+      openStory(activeStoryIndex + 1);
+    }
+  };
+
+  const prevStory = () => {
+    if (activeStoryIndex !== null && activeStoryIndex > 0) {
+      openStory(activeStoryIndex - 1);
+    }
+  };
 
   const handleAddStory = () => {
     console.log('Admin panel for adding stories');
@@ -67,12 +170,13 @@ const Posts = () => {
               {stories.map((story, index) => (
                 <div
                   key={story.id}
+                  onClick={() => openStory(index)}
                   className="flex-shrink-0 group cursor-pointer animate-slide-up"
                   style={{ animationDelay: `${(index + 1) * 100}ms` }}
                 >
                   <div className="relative">
                     {/* Gradient Ring */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-cyan-500 p-[3px] box-glow">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-cyan-500 p-[3px] box-glow animate-pulse">
                       <div className="w-full h-full rounded-full bg-black" />
                     </div>
                     
@@ -85,19 +189,21 @@ const Posts = () => {
                       />
                     </div>
 
-                    {/* Live Indicator */}
-                    <div className="absolute bottom-0 right-0 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-2 py-0.5 rounded-full border-2 border-black">
-                      LIVE
-                    </div>
+                    {/* Live Indicator - Only for first story */}
+                    {index === 0 && (
+                      <div className="absolute bottom-0 right-0 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-2 py-0.5 rounded-full border-2 border-black animate-pulse">
+                        LIVE
+                      </div>
+                    )}
                   </div>
                   
                   {/* Author Name */}
                   <div className="flex items-center justify-center gap-1 mt-2">
-                    <p className="text-xs text-white font-medium truncate max-w-[80px]">
+                    <p className="text-xs text-white font-medium truncate max-w-[70px]">
                       {story.author}
                     </p>
                     {story.verified && (
-                      <CheckCircle2 className="w-3 h-3 text-blue-500 fill-blue-500" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 fill-current flex-shrink-0" />
                     )}
                   </div>
                 </div>
@@ -121,9 +227,9 @@ const Posts = () => {
                       D
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5">
                         <p className="text-white font-semibold">Damini</p>
-                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-blue-500" />
+                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
                       </div>
                       <p className="text-xs text-gray-400">2 hours ago</p>
                     </div>
@@ -155,9 +261,9 @@ const Posts = () => {
                       D
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5">
                         <p className="text-white font-semibold">Damini</p>
-                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-blue-500" />
+                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
                       </div>
                       <p className="text-xs text-gray-400">1 day ago</p>
                     </div>
@@ -186,9 +292,9 @@ const Posts = () => {
                       D
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5">
                         <p className="text-white font-semibold">Damini</p>
-                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-blue-500" />
+                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
                       </div>
                       <p className="text-xs text-gray-400">3 days ago</p>
                     </div>
@@ -213,9 +319,9 @@ const Posts = () => {
                       D
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5">
                         <p className="text-white font-semibold">Damini</p>
-                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-blue-500" />
+                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
                       </div>
                       <p className="text-xs text-gray-400">5 days ago</p>
                     </div>
@@ -236,6 +342,96 @@ const Posts = () => {
           </div>
         </div>
       </div>
+
+      {/* Story Viewer Modal */}
+      {activeStoryIndex !== null && (
+        <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
+          {/* Progress Bars */}
+          <div className="absolute top-4 left-0 right-0 px-4 flex gap-1 z-10">
+            {stories.map((_, index) => (
+              <div key={index} className="flex-1 h-1 bg-white/30 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-white transition-all duration-100"
+                  style={{
+                    width: index < activeStoryIndex ? '100%' : index === activeStoryIndex ? `${viewProgress}%` : '0%'
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Story Header */}
+          <div className="absolute top-8 left-4 right-4 flex items-center justify-between z-10 mt-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white font-bold">
+                D
+              </div>
+              <div>
+                <div className="flex items-center gap-1">
+                  <p className="text-white font-semibold">{stories[activeStoryIndex].author}</p>
+                  <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
+                </div>
+                <p className="text-xs text-gray-300">{stories[activeStoryIndex].timestamp}</p>
+              </div>
+            </div>
+            <button
+              onClick={closeStory}
+              className="text-white hover:text-gray-300 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Story Content */}
+          <div className="relative w-full max-w-md h-full flex items-center justify-center">
+            {/* Previous Story Area (left 1/3) */}
+            <div
+              className="absolute left-0 top-0 bottom-0 w-1/3 cursor-pointer z-20"
+              onClick={prevStory}
+            />
+            
+            {/* Next Story Area (right 2/3) */}
+            <div
+              className="absolute right-0 top-0 bottom-0 w-2/3 cursor-pointer z-20"
+              onClick={nextStory}
+            />
+
+            {/* Story Image and Content */}
+            <div className="relative w-full max-w-md mx-auto px-4">
+              <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-purple-900/50 to-black/50 backdrop-blur-sm border border-purple-500/30">
+                <img
+                  src={stories[activeStoryIndex].image}
+                  alt={stories[activeStoryIndex].title}
+                  className="w-full h-[70vh] object-cover"
+                />
+                
+                {/* Story Text Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6">
+                  <h3 className="text-2xl font-bold text-white mb-2">
+                    {stories[activeStoryIndex].title}
+                  </h3>
+                  <p className="text-gray-200 mb-4">
+                    {stories[activeStoryIndex].content}
+                  </p>
+                  
+                  {stories[activeStoryIndex].link && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.open(stories[activeStoryIndex].link, '_blank');
+                      }}
+                      className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 box-glow"
+                    >
+                      Visit Project
+                      <ExternalLink className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

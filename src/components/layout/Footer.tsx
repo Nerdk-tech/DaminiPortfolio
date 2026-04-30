@@ -1,92 +1,75 @@
-import { Code2, Github, Mail, ExternalLink } from 'lucide-react';
+import { Code2, Github, Mail, ExternalLink, Globe } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-black border-t border-purple-500/20 py-8">
+    <footer className="relative border-t border-white/8 py-10">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Code2 className="w-6 h-6 text-purple-500" />
-              <span className="text-lg font-bold gradient-text">Damini Codesphere</span>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+                <Code2 className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-base font-black text-white">Damini Codesphere</span>
             </div>
-            <p className="text-gray-400 text-sm">
-              Building the future with AI and cutting-edge web technologies.
+            <p className="text-sm text-white/40 leading-relaxed">
+              Full Stack Developer & AI Engineer. Building intelligent solutions from Nigeria to the world.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-sm font-bold text-white/80 mb-4 uppercase tracking-wider">Quick Links</h3>
             <ul className="space-y-2">
-              <li>
-                <a href="#about" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">
-                  About Me
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a href="#projects" className="text-gray-400 hover:text-purple-400 transition-colors text-sm">
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://daminicodes.zone.id"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-purple-400 transition-colors text-sm inline-flex items-center gap-1"
-                >
-                  Organization Website
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </li>
+              {[
+                { label: 'About Me', href: '#about' },
+                { label: 'Services', href: '#services' },
+                { label: 'Projects', href: '#projects' },
+                { label: 'Stories', href: '#posts' },
+                { label: 'Organization Website', href: 'https://daminicodes.zone.id', external: true },
+              ].map(link => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target={link.external ? '_blank' : undefined}
+                    rel={link.external ? 'noopener noreferrer' : undefined}
+                    className="text-sm text-white/40 hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    {link.label}
+                    {link.external && <ExternalLink className="w-3 h-3" />}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Connect */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Connect</h3>
-            <div className="flex flex-col space-y-2">
-              <a
-                href="https://github.com/Nerdk-tech"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-purple-400 transition-colors text-sm inline-flex items-center gap-2"
-              >
-                <Github className="w-4 h-4" />
-                Nerdk-tech
+            <h3 className="text-sm font-bold text-white/80 mb-4 uppercase tracking-wider">Connect</h3>
+            <div className="flex flex-col gap-2.5">
+              <a href="https://github.com/Nerdk-tech" target="_blank" rel="noopener noreferrer" className="text-sm text-white/40 hover:text-white transition-colors inline-flex items-center gap-2">
+                <Github className="w-4 h-4" /> Nerdk-tech
               </a>
-              <a
-                href="https://github.com/Dev-Damini"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-purple-400 transition-colors text-sm inline-flex items-center gap-2"
-              >
-                <Github className="w-4 h-4" />
-                Dev-Damini
+              <a href="https://github.com/Dev-Damini" target="_blank" rel="noopener noreferrer" className="text-sm text-white/40 hover:text-white transition-colors inline-flex items-center gap-2">
+                <Github className="w-4 h-4" /> Dev-Damini
               </a>
-              <a
-                href="mailto:admin@daminicodes.zone.id"
-                className="text-gray-400 hover:text-purple-400 transition-colors text-sm inline-flex items-center gap-2"
-              >
-                <Mail className="w-4 h-4" />
-                admin@daminicodes.zone.id
+              <a href="mailto:admin@daminicodes.zone.id" className="text-sm text-white/40 hover:text-white transition-colors inline-flex items-center gap-2">
+                <Mail className="w-4 h-4" /> admin@daminicodes.zone.id
+              </a>
+              <a href="https://daminicodes.zone.id" target="_blank" rel="noopener noreferrer" className="text-sm text-white/40 hover:text-white transition-colors inline-flex items-center gap-2">
+                <Globe className="w-4 h-4" /> daminicodes.zone.id
               </a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-purple-500/20 pt-6 text-center">
-          <p className="text-gray-400 text-sm">
-            © {currentYear} Damini Codesphere. Founded in 2024. All rights reserved.
+        <div className="section-divider mb-6" />
+        <div className="text-center">
+          <p className="text-xs text-white/25">
+            © {currentYear} Damini Codesphere · Founded 2024 · All rights reserved
           </p>
         </div>
       </div>

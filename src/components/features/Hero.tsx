@@ -1,55 +1,51 @@
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import heroBg from '@/assets/hero-bg.jpg';
 
 const Hero = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Galaxy Background */}
       <div className="absolute inset-0">
         <img
           src={heroBg}
-          alt="Futuristic developer workspace"
-          className="w-full h-full object-cover opacity-30"
+          alt="Galaxy background"
+          className="w-full h-full object-cover opacity-40"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-[#050505]" />
       </div>
 
       {/* Animated Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      <div className="absolute inset-0 grid-overlay" />
 
-      {/* Glowing Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-float" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
+      {/* Floating orbs — white/silver */}
+      <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-white/5 rounded-full blur-3xl animate-float" />
+      <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-white/4 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="animate-slide-down">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 mb-6 backdrop-blur-sm">
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span className="text-sm text-purple-300">Full Stack Developer & AI Engineer</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/8 border border-white/15 mb-8 backdrop-blur-sm">
+            <Zap className="w-4 h-4 text-white" />
+            <span className="text-sm text-white/80 font-medium tracking-widest uppercase">Full Stack Software Developer</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-            <span className="block text-white">Hi, I'm</span>
-            <span className="block gradient-text text-glow">Damini</span>
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 leading-none tracking-tight">
+            <span className="block text-white/90">Hi, I'm</span>
+            <span className="block gradient-text-silver text-glow mt-2">Damini</span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-gray-300 mb-4 max-w-3xl mx-auto">
-            Crafting intelligent solutions with{' '}
-            <span className="text-purple-400 font-semibold">AI</span>,{' '}
-            <span className="text-cyan-400 font-semibold">React</span>, and{' '}
-            <span className="text-pink-400 font-semibold">Python</span>
+          <p className="text-lg md:text-xl text-white/60 mb-3 max-w-2xl mx-auto font-light tracking-wide">
+            Expert in Frontend & Backend · AI Systems · 3 Years Building the Future
           </p>
-
-          <p className="text-lg text-gray-400 mb-8">
-            3 years of experience building cutting-edge applications
+          <p className="text-base text-white/40 mb-10 tracking-widest uppercase text-sm">
+            Damini Codesphere · Est. 2024
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button
               size="lg"
-              className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white border-0 box-glow text-lg px-8 py-6"
+              className="bg-white text-black hover:bg-white/90 font-bold text-base px-8 py-6 transition-all duration-300 box-glow"
               onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             >
               View My Work
@@ -58,34 +54,34 @@ const Hero = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-purple-500 text-purple-400 hover:bg-purple-500/10 hover:text-purple-300 text-lg px-8 py-6"
+              className="border border-white/30 text-white hover:bg-white/8 hover:border-white/60 text-base px-8 py-6 bg-transparent"
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Contact Me
+              Get in Touch
             </Button>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20 max-w-3xl mx-auto">
           {[
             { label: 'Years Experience', value: '3+' },
-            { label: 'Projects Completed', value: '15+' },
+            { label: 'Projects Delivered', value: '15+' },
             { label: 'Technologies', value: '10+' },
             { label: 'Founded', value: '2024' },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-lg p-6 hover:border-purple-500/50 transition-all duration-300">
-              <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">{stat.value}</div>
-              <div className="text-sm text-gray-400">{stat.label}</div>
+            <div key={stat.label} className="glass-card rounded-xl p-5 glass-card-hover">
+              <div className="text-3xl md:text-4xl font-black text-white mb-1">{stat.value}</div>
+              <div className="text-xs text-white/40 uppercase tracking-wider">{stat.label}</div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-purple-500 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-purple-500 rounded-full mt-2 animate-glow-pulse" />
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="w-5 h-8 border border-white/30 rounded-full flex justify-center">
+          <div className="w-0.5 h-2.5 bg-white/60 rounded-full mt-1.5 animate-glow-pulse" />
         </div>
       </div>
     </section>

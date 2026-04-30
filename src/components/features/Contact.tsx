@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, MessageCircle, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Contact = () => {
@@ -8,92 +8,95 @@ const Contact = () => {
       label: 'WhatsApp',
       value: '+234 912 018 5747',
       href: 'https://wa.me/2349120185747',
-      color: 'from-green-500 to-emerald-500',
     },
     {
       icon: MessageCircle,
       label: 'WhatsApp Alt',
       value: '+234 805 467 1458',
       href: 'https://wa.me/2348054671458',
-      color: 'from-green-500 to-teal-500',
     },
     {
       icon: Mail,
       label: 'Email',
       value: 'admin@daminicodes.zone.id',
       href: 'mailto:admin@daminicodes.zone.id',
-      color: 'from-cyan-500 to-blue-500',
     },
     {
       icon: Phone,
       label: 'Phone',
       value: '+234 912 018 5747',
       href: 'tel:+2349120185747',
-      color: 'from-purple-500 to-pink-500',
+    },
+    {
+      icon: Globe,
+      label: 'Organization',
+      value: 'daminicodes.zone.id',
+      href: 'https://daminicodes.zone.id',
     },
     {
       icon: MapPin,
-      label: 'Organization',
-      value: 'Damini Codesphere',
-      href: 'https://daminicodes.zone.id',
-      color: 'from-pink-500 to-purple-500',
+      label: 'Location',
+      value: 'Nigeria 🌍',
+      href: '#',
     },
   ];
 
   return (
-    <section id="contact" className="relative py-24 bg-black">
-      <div className="container mx-auto px-4">
+    <section id="contact" className="relative py-24">
+      <div className="section-divider" />
+      <div className="container mx-auto px-4 pt-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Get In <span className="gradient-text">Touch</span>
+          <p className="text-white/40 uppercase tracking-widest text-xs mb-3">Let's Talk</p>
+          <h2 className="text-4xl md:text-5xl font-black mb-4 text-white">
+            Get In <span className="gradient-text-silver">Touch</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-cyan-500 mx-auto mb-6" />
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Let's collaborate on your next project. I'm always open to discussing new opportunities.
+          <div className="w-16 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto mb-4" />
+          <p className="text-white/50 max-w-xl mx-auto">
+            Open to new projects, collaborations, and opportunities. Let's build something great.
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          {/* Contact Cards */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
+        <div className="max-w-5xl mx-auto">
+          {/* Contact grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
             {contactInfo.map((info, index) => (
               <a
                 key={info.label}
                 href={info.href}
                 target={info.href.startsWith('http') ? '_blank' : undefined}
                 rel={info.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="group bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 hover:transform hover:scale-105 animate-slide-up"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="group glass-card rounded-xl p-4 text-center glass-card-hover animate-slide-up"
+                style={{ animationDelay: `${index * 60}ms` }}
               >
-                <div className={`bg-gradient-to-br ${info.color} w-14 h-14 rounded-lg flex items-center justify-center mb-4 box-glow group-hover:scale-110 transition-transform`}>
-                  <info.icon className="w-7 h-7 text-white" />
+                <div className="w-10 h-10 rounded-lg bg-white/8 border border-white/12 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/12 transition-all">
+                  <info.icon className="w-5 h-5 text-white/70" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{info.label}</h3>
-                <p className="text-gray-400 group-hover:text-purple-300 transition-colors">{info.value}</p>
+                <p className="text-xs text-white/40 mb-1 uppercase tracking-wider">{info.label}</p>
+                <p className="text-xs text-white/70 font-medium break-all leading-tight">{info.value}</p>
               </a>
             ))}
           </div>
 
-          {/* CTA Section */}
-          <div className="bg-gradient-to-r from-purple-500/10 to-cyan-500/10 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-8 md:p-12 text-center">
-            <h3 className="text-3xl font-bold text-white mb-4">Ready to Start a Project?</h3>
-            <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-              Whether you need AI integration, full-stack development, or innovative solutions, I'm here to help bring your ideas to life.
+          {/* CTA Block */}
+          <div className="glass-card rounded-2xl p-8 md:p-12 text-center border border-white/10">
+            <h3 className="text-2xl md:text-3xl font-black text-white mb-3">Ready to Start a Project?</h3>
+            <p className="text-white/50 text-base mb-8 max-w-xl mx-auto">
+              Whether you need AI integration, full-stack development, or something brand new — I'm here to help.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white border-0 box-glow text-lg px-8 py-6"
+                className="bg-white text-black hover:bg-white/90 font-bold text-base px-8 py-6 box-glow"
                 onClick={() => window.open('https://wa.me/2349120185747', '_blank')}
               >
                 <MessageCircle className="mr-2 w-5 h-5" />
                 WhatsApp Me
-                <Send className="ml-2 w-5 h-5" />
+                <Send className="ml-2 w-4 h-4" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-purple-500 text-purple-400 hover:bg-purple-500/10 hover:text-purple-300 text-lg px-8 py-6"
+                className="border border-white/25 text-white/70 hover:bg-white/5 hover:border-white/50 hover:text-white bg-transparent text-base px-8 py-6"
                 onClick={() => window.open('https://daminicodes.zone.id', '_blank')}
               >
                 Visit Organization
@@ -102,16 +105,16 @@ const Contact = () => {
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8">
             {[
               { label: 'Response Time', value: '< 24h' },
               { label: 'Projects Done', value: '15+' },
-              { label: 'Happy Clients', value: '100%' },
+              { label: 'Satisfaction', value: '100%' },
               { label: 'Founded', value: '2024' },
             ].map((stat) => (
-              <div key={stat.label} className="text-center p-4 bg-white/5 border border-purple-500/20 rounded-lg">
-                <div className="text-2xl font-bold gradient-text mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
+              <div key={stat.label} className="glass-card rounded-xl p-4 text-center">
+                <div className="text-2xl font-black text-white mb-1">{stat.value}</div>
+                <div className="text-xs text-white/40 uppercase tracking-wider">{stat.label}</div>
               </div>
             ))}
           </div>

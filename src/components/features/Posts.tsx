@@ -1,341 +1,373 @@
-import { useState } from 'react';
-import { Plus, CheckCircle2, X, ExternalLink } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Plus, X, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import storyLive from '@/assets/story-live.jpg';
 import daniai from '@/assets/project-daniai.jpg';
 import primisx from '@/assets/project-primisx.jpg';
 import primis from '@/assets/project-primis.jpg';
 import danisearch from '@/assets/project-danisearch.jpg';
 import snappix from '@/assets/project-snappix.jpg';
+import daniwa from '@/assets/project-daniwhatsapp.jpg';
+import lifeloop from '@/assets/project-lifeloop.jpg';
+import storyDaniwa from '@/assets/story-daniwa.jpg';
+import storyLifeloop from '@/assets/story-lifeloop.jpg';
+
+/* ──────────────────────────────────────────────────────────── */
+/*  Verified badge — always visible blue Twitter-style check   */
+/* ──────────────────────────────────────────────────────────── */
+const VerifiedBadge = ({ size = 14 }: { size?: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="flex-shrink-0 inline-block"
+    aria-label="Verified"
+  >
+    <circle cx="12" cy="12" r="12" fill="#1d9bf0" />
+    <path
+      d="M7 12.5l3.5 3.5 6.5-7"
+      stroke="white"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 interface Story {
   id: string;
   author: string;
-  verified: boolean;
   image: string;
+  avatarImg?: string;
   title: string;
   content: string;
   link?: string;
+  linkLabel?: string;
   timestamp: string;
+  label?: string;
+  labelColor?: string;
 }
 
-const Posts = () => {
-  const [stories] = useState<Story[]>([
-    {
-      id: '1',
-      author: 'Damini',
-      verified: true,
-      image: storyLive,
-      title: 'DANI is Live',
-      content: 'DANI.ai is now live! Check out my AI best friend that generates images and talks with voice.',
-      link: 'https://daniai.vercel.app',
-      timestamp: '2h ago',
-    },
-    {
-      id: '2',
-      author: 'Damini',
-      verified: true,
-      image: daniai,
-      title: 'DANI.ai Launch',
-      content: '🎉 Introducing DANI.ai - Your AI companion for image generation and voice conversations!',
-      link: 'https://daniai.vercel.app',
-      timestamp: '3h ago',
-    },
-    {
-      id: '3',
-      author: 'Damini',
-      verified: true,
-      image: snappix,
-      title: 'snappix Coming Soon',
-      content: '📱 Working on snappix - the next-gen social media platform. Stay tuned!',
-      timestamp: '1d ago',
-    },
-    {
-      id: '4',
-      author: 'Damini',
-      verified: true,
-      image: primisx,
-      title: 'PRIMISX Development',
-      content: '🤖 Building PRIMISX - Your virtual assistant like J.A.R.V.I.S. Amazing progress!',
-      timestamp: '2d ago',
-    },
-    {
-      id: '5',
-      author: 'Damini',
-      verified: true,
-      image: primis,
-      title: 'PRIMIS AI',
-      content: '✨ PRIMIS AI chatbot is getting smarter every day with advanced conversational capabilities!',
-      timestamp: '3d ago',
-    },
-    {
-      id: '6',
-      author: 'Damini',
-      verified: true,
-      image: danisearch,
-      title: 'DaniSearch',
-      content: '🔍 DaniSearch - Advanced search engine delivering fast, accurate results!',
-      timestamp: '4d ago',
-    },
-  ]);
+const STORIES: Story[] = [
+  {
+    id: '1',
+    author: 'Damini',
+    image: storyLive,
+    avatarImg: storyLive,
+    title: '🔴 DANI is Live!',
+    content: 'DANI.ai is now live! Your AI best friend — generates images, talks with voice, and more.',
+    link: 'https://daniai.vercel.app',
+    linkLabel: 'Visit DANI.ai',
+    timestamp: '2h ago',
+    label: 'LIVE',
+  },
+  {
+    id: '2',
+    author: 'Damini',
+    image: daniwa,
+    avatarImg: storyDaniwa,
+    title: '📲 DANI on WhatsApp',
+    content: 'DANI WhatsApp AI is live! Chat, generate images, play music, run terminal commands, transcribe voice notes — all from WhatsApp.',
+    link: 'https://wa.me/27774008317',
+    linkLabel: 'Chat on WhatsApp',
+    timestamp: '4h ago',
+  },
+  {
+    id: '3',
+    author: 'Damini',
+    image: daniai,
+    avatarImg: daniai,
+    title: '✨ DANI.ai Launch',
+    content: 'Introducing DANI.ai — your AI companion for image generation and voice conversations!',
+    link: 'https://daniai.vercel.app',
+    linkLabel: 'Try DANI.ai',
+    timestamp: '6h ago',
+  },
+  {
+    id: '4',
+    author: 'Damini',
+    image: lifeloop,
+    avatarImg: storyLifeloop,
+    title: '🎮 LifeLoop — Coming Soon',
+    content: 'Working on LifeLoop — an immersive life-simulation RPG. Build your character, make choices, live your story.',
+    timestamp: '12h ago',
+    label: 'SOON',
+  },
+  {
+    id: '5',
+    author: 'Damini',
+    image: snappix,
+    avatarImg: snappix,
+    title: '📱 snappix — In Dev',
+    content: 'Building snappix — the next-gen social media platform. Short-form videos, AI-powered feed. Stay tuned!',
+    timestamp: '1d ago',
+    label: 'SOON',
+  },
+  {
+    id: '6',
+    author: 'Damini',
+    image: primisx,
+    avatarImg: primisx,
+    title: '🤖 PRIMISX Dev Update',
+    content: 'Building PRIMISX — your J.A.R.V.I.S-style virtual assistant. Major progress on voice commands and task automation!',
+    timestamp: '2d ago',
+  },
+  {
+    id: '7',
+    author: 'Damini',
+    image: primis,
+    avatarImg: primis,
+    title: '🌟 PRIMIS AI Update',
+    content: 'PRIMIS AI is getting smarter! Advanced context-awareness and multi-turn dialogue improvements deployed.',
+    link: 'https://primisai.vercel.app',
+    linkLabel: 'Visit PRIMIS AI',
+    timestamp: '3d ago',
+  },
+  {
+    id: '8',
+    author: 'Damini',
+    image: danisearch,
+    avatarImg: danisearch,
+    title: '🔍 DaniSearch',
+    content: 'DaniSearch — advanced search engine delivering fast, accurate results. Privacy-first and lightning fast.',
+    link: 'https://dani-search.vercel.app',
+    linkLabel: 'Try DaniSearch',
+    timestamp: '4d ago',
+  },
+];
 
-  const [activeStoryIndex, setActiveStoryIndex] = useState<number | null>(null);
-  const [viewProgress, setViewProgress] = useState(0);
+const STORY_DURATION = 5000;
+
+export default function Posts() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const storiesScrollRef = useRef<HTMLDivElement>(null);
+
+  const clearTimer = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+  };
 
   const openStory = (index: number) => {
-    setActiveStoryIndex(index);
-    setViewProgress(0);
-    
-    // Auto progress animation
-    const duration = 5000; // 5 seconds per story
-    const interval = 50;
-    const step = (interval / duration) * 100;
-    
-    const progressInterval = setInterval(() => {
-      setViewProgress(prev => {
+    clearTimer();
+    setActiveIndex(index);
+    setProgress(0);
+
+    const step = (50 / STORY_DURATION) * 100;
+    intervalRef.current = setInterval(() => {
+      setProgress(prev => {
         if (prev >= 100) {
-          clearInterval(progressInterval);
-          // Auto move to next story
-          if (index < stories.length - 1) {
-            openStory(index + 1);
-          } else {
-            closeStory();
-          }
+          clearTimer();
+          setActiveIndex(i => {
+            if (i !== null && i < STORIES.length - 1) {
+              const next = i + 1;
+              setTimeout(() => openStory(next), 0);
+              return i;
+            }
+            return null;
+          });
           return 100;
         }
         return prev + step;
       });
-    }, interval);
+    }, 50);
   };
 
   const closeStory = () => {
-    setActiveStoryIndex(null);
-    setViewProgress(0);
+    clearTimer();
+    setActiveIndex(null);
+    setProgress(0);
   };
 
-  const nextStory = () => {
-    if (activeStoryIndex !== null && activeStoryIndex < stories.length - 1) {
-      openStory(activeStoryIndex + 1);
-    }
+  const goNext = () => {
+    if (activeIndex !== null && activeIndex < STORIES.length - 1) openStory(activeIndex + 1);
+    else closeStory();
   };
 
-  const prevStory = () => {
-    if (activeStoryIndex !== null && activeStoryIndex > 0) {
-      openStory(activeStoryIndex - 1);
-    }
+  const goPrev = () => {
+    if (activeIndex !== null && activeIndex > 0) openStory(activeIndex - 1);
   };
 
-  const handleAddStory = () => {
-    console.log('Admin panel for adding stories');
-    // Hidden admin functionality - will be triggered through a hidden route or command
-  };
+  useEffect(() => () => clearTimer(), []);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (activeIndex === null) return;
+      if (e.key === 'ArrowRight') goNext();
+      if (e.key === 'ArrowLeft') goPrev();
+      if (e.key === 'Escape') closeStory();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  });
+
+  const activeStory = activeIndex !== null ? STORIES[activeIndex] : null;
 
   return (
-    <section id="posts" className="relative py-24 bg-gradient-to-b from-black to-purple-950/20">
-      <div className="container mx-auto px-4">
+    <section id="posts" className="relative py-24">
+      <div className="section-divider" />
+      <div className="container mx-auto px-4 pt-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Latest <span className="gradient-text">Updates</span>
+          <p className="text-white/40 uppercase tracking-widest text-xs mb-3">Updates</p>
+          <h2 className="text-4xl md:text-5xl font-black mb-4 text-white">
+            Latest <span className="gradient-text-silver">Stories</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-cyan-500 mx-auto mb-6" />
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Stay updated with my latest projects, achievements, and tech journey
-          </p>
+          <div className="w-16 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto mb-4" />
+          <p className="text-white/50 max-w-xl mx-auto">Tap any story circle to view — swipe or use arrows to navigate</p>
         </div>
 
         <div className="max-w-5xl mx-auto">
-          {/* Stories Section */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <span className="w-1 h-6 bg-gradient-to-b from-purple-500 to-cyan-500 rounded-full" />
-              Stories
-            </h3>
-            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-              {/* Add Story Button (Hidden Admin) */}
+          {/* ── Story Circles Row ── */}
+          <div className="mb-14">
+            <div
+              ref={storiesScrollRef}
+              className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide px-1"
+            >
+              {/* Hidden admin add-story button */}
               <button
-                onClick={handleAddStory}
-                className="flex-shrink-0 group cursor-pointer"
-                style={{ opacity: 0.3 }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.3')}
+                onClick={() => console.log('Admin: add story')}
+                className="flex-shrink-0 group transition-opacity duration-300"
+                style={{ opacity: 0.15 }}
+                onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
+                onMouseLeave={e => (e.currentTarget.style.opacity = '0.15')}
+                aria-label="Add story (admin)"
               >
-                <div className="relative">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border-2 border-dashed border-purple-500/40 flex items-center justify-center group-hover:border-purple-500 transition-all">
-                    <Plus className="w-8 h-8 text-purple-400" />
-                  </div>
-                  <p className="text-xs text-gray-500 text-center mt-2 group-hover:text-purple-400 transition-colors">Add Story</p>
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/5 border-2 border-dashed border-white/20 flex items-center justify-center group-hover:border-white/40 transition-all">
+                  <Plus className="w-6 h-6 text-white/60" />
                 </div>
+                <p className="text-[10px] text-white/30 text-center mt-2">Add</p>
               </button>
 
-              {/* Story Circles */}
-              {stories.map((story, index) => (
-                <div
+              {STORIES.map((story, index) => (
+                <button
                   key={story.id}
                   onClick={() => openStory(index)}
-                  className="flex-shrink-0 group cursor-pointer animate-slide-up"
-                  style={{ animationDelay: `${(index + 1) * 100}ms` }}
+                  className="flex-shrink-0 flex flex-col items-center group focus:outline-none"
+                  aria-label={`View story: ${story.title}`}
                 >
+                  {/* Ring + avatar */}
                   <div className="relative">
-                    {/* Gradient Ring */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-cyan-500 p-[3px] box-glow animate-pulse">
-                      <div className="w-full h-full rounded-full bg-black" />
+                    {/* Gradient ring */}
+                    <div className="absolute inset-0 rounded-full p-[2.5px] bg-gradient-to-tr from-white via-white/60 to-white/30 animate-pulse">
+                      <div className="w-full h-full rounded-full bg-[#050505]" />
                     </div>
-                    
-                    {/* Story Image */}
-                    <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-black group-hover:scale-105 transition-transform">
+                    {/* Avatar */}
+                    <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden group-hover:scale-105 transition-transform duration-200">
                       <img
-                        src={story.image}
+                        src={story.avatarImg ?? story.image}
                         alt={story.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover grayscale-[20%]"
                       />
                     </div>
-
-                    {/* Live Indicator - Only for first story */}
-                    {index === 0 && (
-                      <div className="absolute bottom-0 right-0 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-2 py-0.5 rounded-full border-2 border-black animate-pulse">
-                        LIVE
+                    {/* Live / Soon dot */}
+                    {story.label && (
+                      <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 text-[9px] font-black px-1.5 py-0.5 rounded-full border border-white/20 whitespace-nowrap ${story.label === 'LIVE' ? 'bg-white text-black' : 'bg-black text-white/80'}`}>
+                        {story.label}
                       </div>
                     )}
                   </div>
-                  
-                  {/* Author Name */}
-                  <div className="flex items-center justify-center gap-1 mt-2">
-                    <p className="text-xs text-white font-medium truncate max-w-[70px]">
+                  {/* Author + tick */}
+                  <div className="flex items-center gap-1 mt-2.5">
+                    <span className="text-[11px] text-white/80 font-medium max-w-[70px] truncate">
                       {story.author}
-                    </p>
-                    {story.verified && (
-                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 fill-current flex-shrink-0" />
-                    )}
+                    </span>
+                    <VerifiedBadge size={12} />
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
 
-          {/* Posts Grid */}
+          {/* ── Posts Grid ── */}
           <div>
-            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <span className="w-1 h-6 bg-gradient-to-b from-purple-500 to-cyan-500 rounded-full" />
+            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+              <span className="w-0.5 h-5 bg-white/60 rounded-full" />
               Featured Posts
             </h3>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Post 1 - DANI.ai Launch */}
-              <div className="bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-2xl overflow-hidden hover:border-purple-500/50 transition-all group">
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
-                      D
+            <div className="grid sm:grid-cols-2 gap-5">
+              {/* Post 1 */}
+              <div className="glass-card rounded-2xl p-6 glass-card-hover">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white font-bold text-sm">D</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-white font-semibold text-sm">Damini</span>
+                      <VerifiedBadge size={14} />
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <p className="text-white font-semibold">Damini</p>
-                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
-                      </div>
-                      <p className="text-xs text-gray-400">2 hours ago</p>
+                    <p className="text-xs text-white/40">2 hours ago</p>
+                  </div>
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2">🎉 DANI.ai is Live!</h4>
+                <p className="text-white/60 text-sm mb-4 leading-relaxed">Your AI best friend that generates images and talks with natural voice. Experience the future of AI companionship — now live at daniai.vercel.app</p>
+                <div className="bg-white/4 border border-white/8 rounded-lg p-3 mb-4">
+                  <p className="text-xs text-white/50">✨ Image Generation · Voice AI · Conversational Intelligence</p>
+                </div>
+                <button onClick={() => window.open('https://daniai.vercel.app', '_blank')} className="w-full bg-white text-black font-semibold py-2.5 rounded-lg text-sm hover:bg-white/90 transition-all flex items-center justify-center gap-2">
+                  Try DANI.ai <ExternalLink className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* Post 2 */}
+              <div className="glass-card rounded-2xl p-6 glass-card-hover">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white font-bold text-sm">D</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-white font-semibold text-sm">Damini</span>
+                      <VerifiedBadge size={14} />
                     </div>
+                    <p className="text-xs text-white/40">4 hours ago</p>
                   </div>
-                  
-                  <h4 className="text-xl font-bold text-white mb-3">🎉 DANI.ai is Now Live!</h4>
-                  <p className="text-gray-300 mb-4">
-                    Excited to announce the launch of DANI.ai - your AI best friend that generates images and talks with natural voice! Experience the future of AI companionship.
-                  </p>
-                  
-                  <div className="bg-gradient-to-br from-pink-500/20 to-purple-500/20 border border-pink-500/30 rounded-lg p-4 mb-4">
-                    <p className="text-sm text-pink-300">✨ Features: Image Generation • Voice AI • Conversational Intelligence</p>
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2">📲 DANI WhatsApp AI</h4>
+                <p className="text-white/60 text-sm mb-4 leading-relaxed">DANI — Digital Artificial Neural Intelligence — is now on WhatsApp. Chat, generate images, play music, run commands, and more. All from your WhatsApp chat.</p>
+                <div className="bg-white/4 border border-white/8 rounded-lg p-3 mb-4">
+                  <p className="text-xs text-white/50">💬 Chat · 🎨 Images · 🎵 Music · ⚡ Terminal · 🌤 Weather</p>
+                </div>
+                <button onClick={() => window.open('https://wa.me/27774008317', '_blank')} className="w-full bg-white text-black font-semibold py-2.5 rounded-lg text-sm hover:bg-white/90 transition-all flex items-center justify-center gap-2">
+                  Chat on WhatsApp <ExternalLink className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* Post 3 */}
+              <div className="glass-card rounded-2xl p-6 glass-card-hover">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white font-bold text-sm">D</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-white font-semibold text-sm">Damini</span>
+                      <VerifiedBadge size={14} />
+                    </div>
+                    <p className="text-xs text-white/40">1 day ago</p>
                   </div>
-                  
-                  <button
-                    onClick={() => window.open('https://daniai.vercel.app', '_blank')}
-                    className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-semibold py-3 rounded-lg transition-all"
-                  >
-                    Try DANI.ai Now
-                  </button>
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2">🎮 LifeLoop — Coming Soon</h4>
+                <p className="text-white/60 text-sm mb-4 leading-relaxed">An immersive life-simulation RPG is in the works. Build your character, make choices that matter, manage relationships and careers. Every decision shapes your story.</p>
+                <div className="bg-white/4 border border-white/8 rounded-lg p-3">
+                  <p className="text-xs text-white/50">🚀 Status: In Development · Genre: Life Sim RPG</p>
                 </div>
               </div>
 
-              {/* Post 2 - snappix Coming Soon */}
-              <div className="bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-2xl overflow-hidden hover:border-purple-500/50 transition-all group">
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white font-bold">
-                      D
+              {/* Post 4 */}
+              <div className="glass-card rounded-2xl p-6 glass-card-hover">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white font-bold text-sm">D</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-white font-semibold text-sm">Damini</span>
+                      <VerifiedBadge size={14} />
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <p className="text-white font-semibold">Damini</p>
-                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
-                      </div>
-                      <p className="text-xs text-gray-400">1 day ago</p>
-                    </div>
-                  </div>
-                  
-                  <h4 className="text-xl font-bold text-white mb-3">📱 snappix - Coming Soon</h4>
-                  <p className="text-gray-300 mb-4">
-                    Working on something exciting! snappix - a next-gen social media platform inspired by TikTok. Short-form videos, AI-powered discovery, and seamless sharing. Stay tuned!
-                  </p>
-                  
-                  <div className="bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/30 rounded-lg p-4 mb-4">
-                    <p className="text-sm text-purple-300">🚀 Status: In Development • Launching Soon</p>
-                  </div>
-                  
-                  <div className="w-full bg-gradient-to-r from-purple-600/30 to-cyan-600/30 border border-purple-500/50 text-purple-300 font-semibold py-3 rounded-lg text-center">
-                    Coming Soon
+                    <p className="text-xs text-white/40">5 days ago</p>
                   </div>
                 </div>
-              </div>
-
-              {/* Post 3 - PRIMISX Update */}
-              <div className="bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-2xl overflow-hidden hover:border-purple-500/50 transition-all group">
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-white font-bold">
-                      D
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <p className="text-white font-semibold">Damini</p>
-                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
-                      </div>
-                      <p className="text-xs text-gray-400">3 days ago</p>
-                    </div>
-                  </div>
-                  
-                  <h4 className="text-xl font-bold text-white mb-3">🤖 PRIMISX Development Update</h4>
-                  <p className="text-gray-300 mb-4">
-                    Making great progress on PRIMISX - the J.A.R.V.I.S-style virtual assistant! Advanced NLP, voice commands, and intelligent automation coming together beautifully.
-                  </p>
-                  
-                  <div className="bg-gradient-to-br from-purple-500/20 to-indigo-500/20 border border-purple-500/30 rounded-lg p-4">
-                    <p className="text-sm text-purple-300">⚡ Progress: 65% • Expected Launch: Q2 2026</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Post 4 - Milestone */}
-              <div className="bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-2xl overflow-hidden hover:border-purple-500/50 transition-all group">
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold">
-                      D
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <p className="text-white font-semibold">Damini</p>
-                        <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
-                      </div>
-                      <p className="text-xs text-gray-400">5 days ago</p>
-                    </div>
-                  </div>
-                  
-                  <h4 className="text-xl font-bold text-white mb-3">🎯 Milestone Achieved!</h4>
-                  <p className="text-gray-300 mb-4">
-                    Grateful to announce that Damini Codesphere has successfully delivered 15+ projects in 2026! From AI chatbots to full-stack applications, the journey continues. Thank you for your support! 🙏
-                  </p>
-                  
-                  <div className="flex gap-2 text-sm text-gray-300">
-                    <span className="bg-purple-500/20 border border-purple-500/30 px-3 py-1 rounded-full">15+ Projects</span>
-                    <span className="bg-cyan-500/20 border border-cyan-500/30 px-3 py-1 rounded-full">100% Satisfaction</span>
-                  </div>
+                <h4 className="text-lg font-bold text-white mb-2">🎯 15+ Projects Delivered</h4>
+                <p className="text-white/60 text-sm mb-4 leading-relaxed">Grateful to have successfully delivered 15+ projects — from AI chatbots to full-stack applications. Damini Codesphere continues to grow. Thank you for the trust! 🙏</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="bg-white/8 border border-white/12 text-white/60 px-3 py-1 rounded-full text-xs">15+ Projects</span>
+                  <span className="bg-white/8 border border-white/12 text-white/60 px-3 py-1 rounded-full text-xs">3 Years</span>
+                  <span className="bg-white/8 border border-white/12 text-white/60 px-3 py-1 rounded-full text-xs">100% Satisfaction</span>
                 </div>
               </div>
             </div>
@@ -343,97 +375,97 @@ const Posts = () => {
         </div>
       </div>
 
-      {/* Story Viewer Modal */}
-      {activeStoryIndex !== null && (
-        <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
-          {/* Progress Bars */}
-          <div className="absolute top-4 left-0 right-0 px-4 flex gap-1 z-10">
-            {stories.map((_, index) => (
-              <div key={index} className="flex-1 h-1 bg-white/30 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-white transition-all duration-100"
-                  style={{
-                    width: index < activeStoryIndex ? '100%' : index === activeStoryIndex ? `${viewProgress}%` : '0%'
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Story Header */}
-          <div className="absolute top-8 left-4 right-4 flex items-center justify-between z-10 mt-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white font-bold">
-                D
-              </div>
-              <div>
-                <div className="flex items-center gap-1">
-                  <p className="text-white font-semibold">{stories[activeStoryIndex].author}</p>
-                  <CheckCircle2 className="w-4 h-4 text-blue-500 fill-current" />
+      {/* ── Story Viewer Modal ── */}
+      {activeStory && activeIndex !== null && (
+        <div
+          className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center"
+          onClick={closeStory}
+        >
+          <div
+            className="relative w-full max-w-sm mx-4 sm:mx-auto"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Progress bars */}
+            <div className="flex gap-1 mb-3 px-1">
+              {STORIES.map((_, i) => (
+                <div key={i} className="flex-1 h-0.5 bg-white/20 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-white rounded-full transition-none"
+                    style={{ width: i < activeIndex ? '100%' : i === activeIndex ? `${progress}%` : '0%' }}
+                  />
                 </div>
-                <p className="text-xs text-gray-300">{stories[activeStoryIndex].timestamp}</p>
+              ))}
+            </div>
+
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3 px-1">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-full overflow-hidden border border-white/20">
+                  <img src={activeStory.avatarImg ?? activeStory.image} alt="" className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-white font-semibold text-sm">{activeStory.author}</span>
+                    <VerifiedBadge size={13} />
+                  </div>
+                  <p className="text-white/50 text-xs">{activeStory.timestamp}</p>
+                </div>
+              </div>
+              <button onClick={closeStory} className="text-white/70 hover:text-white transition-colors p-1" aria-label="Close">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Story card */}
+            <div className="relative rounded-2xl overflow-hidden border border-white/10">
+              <img
+                src={activeStory.image}
+                alt={activeStory.title}
+                className="w-full aspect-[9/16] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+
+              {/* Tap zones */}
+              <button onClick={goPrev} className="absolute left-0 top-0 bottom-0 w-1/3 z-10" aria-label="Previous story" />
+              <button onClick={goNext} className="absolute right-0 top-0 bottom-0 w-1/3 z-10" aria-label="Next story" />
+
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 right-0 p-5 z-20">
+                <h3 className="text-xl font-black text-white mb-2">{activeStory.title}</h3>
+                <p className="text-white/80 text-sm leading-relaxed mb-4">{activeStory.content}</p>
+                {activeStory.link && (
+                  <button
+                    onClick={e => { e.stopPropagation(); window.open(activeStory.link, '_blank'); }}
+                    className="bg-white text-black font-semibold text-sm px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-white/90 transition-all"
+                  >
+                    {activeStory.linkLabel ?? 'Visit'}
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
             </div>
-            <button
-              onClick={closeStory}
-              className="text-white hover:text-gray-300 transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
 
-          {/* Story Content */}
-          <div className="relative w-full max-w-md h-full flex items-center justify-center">
-            {/* Previous Story Area (left 1/3) */}
-            <div
-              className="absolute left-0 top-0 bottom-0 w-1/3 cursor-pointer z-20"
-              onClick={prevStory}
-            />
-            
-            {/* Next Story Area (right 2/3) */}
-            <div
-              className="absolute right-0 top-0 bottom-0 w-2/3 cursor-pointer z-20"
-              onClick={nextStory}
-            />
-
-            {/* Story Image and Content */}
-            <div className="relative w-full max-w-md mx-auto px-4">
-              <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-purple-900/50 to-black/50 backdrop-blur-sm border border-purple-500/30">
-                <img
-                  src={stories[activeStoryIndex].image}
-                  alt={stories[activeStoryIndex].title}
-                  className="w-full h-[70vh] object-cover"
-                />
-                
-                {/* Story Text Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6">
-                  <h3 className="text-2xl font-bold text-white mb-2">
-                    {stories[activeStoryIndex].title}
-                  </h3>
-                  <p className="text-gray-200 mb-4">
-                    {stories[activeStoryIndex].content}
-                  </p>
-                  
-                  {stories[activeStoryIndex].link && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        window.open(stories[activeStoryIndex].link, '_blank');
-                      }}
-                      className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 box-glow"
-                    >
-                      Visit Project
-                      <ExternalLink className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
+            {/* Arrow nav for desktop */}
+            <div className="hidden sm:flex items-center justify-between mt-4 px-1">
+              <button
+                onClick={goPrev}
+                disabled={activeIndex === 0}
+                className="flex items-center gap-1.5 text-white/50 hover:text-white disabled:opacity-20 transition-all text-sm"
+              >
+                <ChevronLeft className="w-4 h-4" /> Prev
+              </button>
+              <span className="text-white/30 text-xs">{activeIndex + 1} / {STORIES.length}</span>
+              <button
+                onClick={goNext}
+                disabled={activeIndex === STORIES.length - 1}
+                className="flex items-center gap-1.5 text-white/50 hover:text-white disabled:opacity-20 transition-all text-sm"
+              >
+                Next <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>
       )}
     </section>
   );
-};
-
-export default Posts;
+}

@@ -1,61 +1,68 @@
-import { Code2, Database, Palette, Cpu } from 'lucide-react';
+import { Code2, Database, Palette, Cpu, Server, Globe } from 'lucide-react';
 
 const Skills = () => {
   const skillCategories = [
     {
       icon: Code2,
       title: 'Frontend',
-      color: 'from-purple-500 to-pink-500',
-      skills: ['React', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Tailwind CSS'],
+      skills: ['React', 'TypeScript', 'JavaScript', 'HTML / CSS', 'Tailwind CSS', 'Next.js'],
     },
     {
-      icon: Database,
+      icon: Server,
       title: 'Backend',
-      color: 'from-cyan-500 to-blue-500',
-      skills: ['Python', 'Node.js', 'REST APIs', 'Database Design'],
+      skills: ['Python', 'Node.js', 'REST APIs', 'Database Design', 'PostgreSQL', 'Authentication'],
     },
     {
       icon: Cpu,
       title: 'AI & ML',
-      color: 'from-purple-500 to-cyan-500',
-      skills: ['Machine Learning', 'Natural Language Processing', 'Neural Networks', 'AI Integration'],
+      skills: ['Machine Learning', 'NLP', 'Neural Networks', 'AI Integration', 'ChatBot Systems', 'Voice AI'],
     },
     {
-      icon: Palette,
-      title: 'Tools & Others',
-      color: 'from-pink-500 to-purple-500',
-      skills: ['Git/GitHub', 'Vercel', 'UI/UX Design', 'Responsive Design'],
+      icon: Globe,
+      title: 'Web & Infra',
+      skills: ['Git / GitHub', 'Vercel', 'API Design', 'Responsive Design', 'SEO', 'Performance'],
     },
   ];
 
+  const coreSkills = [
+    { name: 'Frontend Development', level: 95 },
+    { name: 'Backend Development', level: 90 },
+    { name: 'Python & AI', level: 85 },
+    { name: 'React & TypeScript', level: 95 },
+    { name: 'Full Stack Architecture', level: 88 },
+    { name: 'AI Integration', level: 82 },
+  ];
+
   return (
-    <section id="skills" className="relative py-24 bg-black">
-      <div className="container mx-auto px-4">
+    <section id="skills" className="relative py-24">
+      <div className="section-divider" />
+      <div className="container mx-auto px-4 pt-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Technical <span className="gradient-text">Skills</span>
+          <p className="text-white/40 uppercase tracking-widest text-xs mb-3">Expertise</p>
+          <h2 className="text-4xl md:text-5xl font-black mb-4 text-white">
+            Technical <span className="gradient-text-silver">Skills</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-cyan-500 mx-auto mb-6" />
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            A comprehensive toolkit for building modern, intelligent applications
+          <div className="w-16 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto mb-4" />
+          <p className="text-white/50 max-w-xl mx-auto">
+            Expert in both frontend and backend — from pixel-perfect UI to scalable server architecture
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto mb-16">
           {skillCategories.map((category, index) => (
             <div
               key={category.title}
-              className="bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 animate-slide-up"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="glass-card rounded-xl p-6 glass-card-hover animate-slide-up"
+              style={{ animationDelay: `${index * 80}ms` }}
             >
-              <div className={`bg-gradient-to-br ${category.color} w-14 h-14 rounded-lg flex items-center justify-center mb-4 box-glow`}>
-                <category.icon className="w-7 h-7 text-white" />
+              <div className="w-12 h-12 rounded-lg bg-white/8 border border-white/12 flex items-center justify-center mb-4">
+                <category.icon className="w-6 h-6 text-white/80" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-4">{category.title}</h3>
+              <h3 className="text-lg font-bold text-white mb-4">{category.title}</h3>
               <ul className="space-y-2">
                 {category.skills.map((skill) => (
-                  <li key={skill} className="flex items-center text-gray-300">
-                    <span className="w-2 h-2 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full mr-2" />
+                  <li key={skill} className="flex items-center text-sm text-white/60">
+                    <span className="w-1.5 h-1.5 bg-white/50 rounded-full mr-2.5 flex-shrink-0" />
                     {skill}
                   </li>
                 ))}
@@ -64,25 +71,24 @@ const Skills = () => {
           ))}
         </div>
 
-        {/* Featured Skills Progress */}
-        <div className="mt-16 max-w-4xl mx-auto">
-          <h3 className="text-2xl font-bold text-center mb-8 text-white">Core Expertise</h3>
-          <div className="space-y-6">
-            {[
-              { name: 'React & TypeScript', level: 90, color: 'purple' },
-              { name: 'Python Development', level: 85, color: 'cyan' },
-              { name: 'AI & Machine Learning', level: 80, color: 'pink' },
-              { name: 'Full Stack Development', level: 88, color: 'purple' },
-            ].map((skill) => (
+        {/* Skill Bars */}
+        <div className="max-w-3xl mx-auto">
+          <h3 className="text-xl font-bold text-white text-center mb-8">Core Proficiency</h3>
+          <div className="space-y-5">
+            {coreSkills.map((skill, i) => (
               <div key={skill.name}>
                 <div className="flex justify-between mb-2">
-                  <span className="text-gray-300 font-medium">{skill.name}</span>
-                  <span className="text-gray-400">{skill.level}%</span>
+                  <span className="text-sm text-white/70 font-medium">{skill.name}</span>
+                  <span className="text-sm text-white/40">{skill.level}%</span>
                 </div>
-                <div className="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
+                <div className="w-full bg-white/6 rounded-full h-1.5 overflow-hidden border border-white/8">
                   <div
-                    className={`h-full bg-gradient-to-r from-${skill.color}-600 to-${skill.color}-400 rounded-full transition-all duration-1000 ease-out box-glow`}
-                    style={{ width: `${skill.level}%` }}
+                    className="h-full rounded-full transition-all duration-1000 ease-out"
+                    style={{
+                      width: `${skill.level}%`,
+                      background: `linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.5) 100%)`,
+                      animationDelay: `${i * 100}ms`
+                    }}
                   />
                 </div>
               </div>

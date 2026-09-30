@@ -292,6 +292,7 @@ h1,h2,h3,h4{font-family:'Sora',sans-serif;}
   font-size:clamp(2rem,5vw,3.1rem);
   font-weight:800;margin-bottom:36px;line-height:1.15;
 }
+.contact-sub{color:var(--dim);font-size:1.05rem;margin:-14px 0 34px;}
 .contact .btn-lg{margin-bottom:38px;}
 .contact-links{
   display:flex;flex-direction:column;gap:8px;

@@ -315,76 +315,29 @@ h1,h2,h3,h4{font-family:'Sora',sans-serif;}
 .reveal.visible{opacity:1;transform:none;}
 
 /* ============ RESPONSIVE ============ */
-
-/* tablets & small laptops */
-@media(max-width:1024px){
-  .container{padding:0 20px;}
-  .nav-inner{padding:14px 20px;}
-  .section{padding:72px 0;}
-}
-
-/* medium screens */
 @media(max-width:900px){
   .grid-4{grid-template-columns:1fr 1fr;}
   .stack-groups{grid-template-columns:1fr;}
-  .about-grid{grid-template-columns:1fr;gap:24px;}
+  .about-grid{grid-template-columns:1fr;gap:20px;}
   .project.flagship{flex-direction:column;}
-  .project.flagship .project-preview{min-height:220px;}
+  .project.flagship .project-preview{min-height:200px;}
 }
-
-/* mobile nav kicks in earlier so links never squeeze */
-@media(max-width:760px){
+@media(max-width:640px){
+  .grid-4,.grid-2{grid-template-columns:1fr;}
+  .section{padding:64px 0;}
+  .hero{padding:130px 0 70px;}
   .nav-links{
-    position:fixed;top:60px;right:0;left:0;z-index:49;
+    position:fixed;top:64px;right:0;left:0;
     background:var(--bg-soft);border-bottom:1px solid var(--line);
-    flex-direction:column;align-items:flex-start;gap:0;
-    padding:8px 24px 20px;
+    flex-direction:column;gap:0;padding:10px 24px 20px;
     display:none;
   }
   .nav-links.open{display:flex;}
-  .nav-links a{padding:13px 0;font-size:1rem;width:100%;}
+  .nav-links a{padding:12px 0;font-size:1rem;}
   .nav-cta{display:none;}
-  .nav-burger{display:block;margin-left:auto;}
-  .nav-inner{padding:12px 20px;}
+  .nav-burger{display:block;}
+  .case-step{padding:22px 20px;gap:16px;}
 }
-@media(max-width:760px){
-  .nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-  .nav-burger.open span:nth-child(2){opacity:0;}
-  .nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-}
-
-/* phones */
-@media(max-width:640px){
-  .grid-4,.grid-2{grid-template-columns:1fr;}
-  .section{padding:60px 0;}
-  .hero{padding:120px 0 70px;}
-  .hero h1{font-size:clamp(2rem,9vw,2.6rem);margin-bottom:20px;}
-  .hero-sub{font-size:.98rem;margin-bottom:28px;}
-  .hero-actions{gap:10px;}
-  .hero-actions .btn{flex:1 1 auto;justify-content:center;}
-  .case-step{padding:20px;gap:14px;}
-  .project-body{padding:22px;}
-  .project h3{font-size:1.15rem;}
-  .contact{padding:90px 0;}
-  .footer-inner{flex-direction:column;align-items:center;text-align:center;}
-}
-
-/* very small phones (iPhone SE etc) */
-@media(max-width:400px){
-  .hero{padding:104px 0 56px;}
-  .hero h1{font-size:1.9rem;}
-  .hero-actions .btn{flex:1 1 100%;padding:13px 18px;}
-  .btn-lg{padding:15px 26px;font-size:.95rem;}
-  .contact-title{font-size:1.7rem;}
-  .gh-card{padding:20px;gap:14px;}
-  .gh-card svg{width:28px;height:28px;}
-}
-
-/* large screens get a touch more air */
-@media(min-width:1440px){
-  .container{max-width:1160px;}
-}
-
 @media(prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important;}
   .reveal{opacity:1;transform:none;}

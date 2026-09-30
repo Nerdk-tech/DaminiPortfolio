@@ -299,6 +299,34 @@ h1,h2,h3,h4{font-family:'Sora',sans-serif;}
 .contact-links a{color:var(--dim);font-size:.9rem;transition:color .2s;}
 .contact-links a:hover{color:var(--accent);}
 
+/* ============ PROJECT SCREENSHOTS ============ */
+.project-preview.has-shot{padding:0;}
+.project-preview .shot{width:100%;height:auto;display:block;}
+.browser-frame{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:10px;
+  overflow:hidden;
+  background:#0C0F15;
+}
+.browser-bar{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 12px;
+  background:rgba(255,255,255,.045);
+  border-bottom:1px solid var(--line);
+}
+.browser-bar i{width:10px;height:10px;border-radius:50%;background:#3a3f4d;flex:0 0 auto;}
+.browser-bar i:nth-child(1){background:#ff5f57;}
+.browser-bar i:nth-child(2){background:#febc2e;}
+.browser-bar i:nth-child(3){background:#28c840;}
+.browser-bar span{
+  margin-left:8px;
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;
+  color:var(--dim);background:rgba(255,255,255,.05);
+  padding:3px 12px;border-radius:20px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
 /* ============ FOOTER ============ */
 .footer{border-top:1px solid var(--line);padding:28px 0;}
 .footer-inner{
